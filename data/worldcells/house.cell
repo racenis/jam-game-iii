@@ -1,0 +1,6 @@
+CELLv2 house 0 1 
+staticwobj 0 house-worldspawn 0 0 0 0 0 0 worldspawn fullbright 
+button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 3.14 none none 
+button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.01 0 0.1 none none 
+signal 112 open washing-machine-tumbler 0 -1 open none 
+transition transition1 house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 

@@ -59,13 +59,14 @@ int main() {
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);
 	Render::SetAmbientColor((glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f) * 0.7f);
 
-	WorldCell* centraltirgus = WorldCell::Make("centraltirgus");
-	centraltirgus->LoadFromDisk();
+	WorldCell* house = WorldCell::Make("house");
+	house->LoadFromDisk();
 
 	Player* player = new Player;
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 0.05f, 0.0f));
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
-	player->SetLocation(Entity::Find("player-start")->GetLocation());
+	//player->SetLocation(Entity::Find("player-start")->GetLocation());
+	player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
 	player->Load();
 
 	Ext::Camera::Camera* camera = new Ext::Camera::Camera;
