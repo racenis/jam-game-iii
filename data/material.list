@@ -1,31 +1,32 @@
-MATv1
-dev/light			flat
-dev/nodraw			flat
-dev/floor32x32		flat
-dev/floor128x128	flat
-dev/scaffold32x32	flat
-dev/scale128x128	flat
-dev/vent16x16		flat
-dev/wall8x8			flat
-dev/wall16x16		flat
-dev/wall32x32		flat
-dev/wall64x64		flat
-dev/wall128x128		flat
-dev/wallstair32x32	flat
-dev/window128x128	flat
-wood1				flat
-wood2				flat
-wood3				flat
-wood4				flat
-whitetile			flat
-plaster1			flat
-brickwall2			flat
-metal1			flat
-metal2			flat
-metal3			flat
-grass			flat
-path			flat
-grasspath			flat
-bamboo			flat
-water			flat
-white			flat
+MATv2
+dev/light			flat	nearest
+dev/nodraw			flat	nearest
+dev/floor32x32		flat	nearest
+dev/floor128x128	flat	nearest
+dev/scaffold32x32	flat	nearest
+dev/scale128x128	flat	nearest
+dev/vent16x16		flat	nearest
+dev/wall8x8			flat	nearest
+dev/wall16x16		flat	nearest
+dev/wall32x32		flat	nearest
+dev/wall64x64		flat	nearest
+dev/wall128x128		flat	nearest
+dev/wallstair32x32	flat	nearest
+dev/window128x128	flat	nearest
+wood1				flat	nearest
+wood2				flat	nearest
+wood3				flat	nearest
+wood4				flat	nearest
+whitetile			flat	nearest
+plaster1			flat	nearest
+brickwall2			flat	nearest
+metal1			flat	nearest
+metal2			flat	nearest
+metal3			flat	nearest
+grass			flat	nearest
+path			flat	nearest
+grasspath			flat	nearest
+bamboo			flat	nearest
+water			flat	nearest
+white			flat	nearest
+monster/froggy	flat	nearest

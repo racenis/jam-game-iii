@@ -17,13 +17,15 @@
 #include <entities/light.h>
 #include <entities/crate.h>
 #include <entities/marker.h>
+#include <entities/sound.h>
+#include <entities/decoration.h>
 #include <components/player.h>
 #include <components/controller.h>
 #include <components/render.h>
 #include <extensions/camera/camera.h>
 #include <extensions/menu/menu.h>
-#include <extensions/design/design.h>
-#include <extensions/design/entities.h>
+#include <extensions/kitchensink/design.h>
+#include <extensions/kitchensink/entities.h>
 
 using namespace tram;
 using namespace tram::UI;
@@ -37,6 +39,8 @@ int main() {
 	Light::Register();
 	Crate::Register();
 	Marker::Register();
+	Sound::Register();
+	Decoration::Register();
 	Ext::Design::Button::Register();
 
 	Core::Init();
@@ -55,6 +59,11 @@ int main() {
 	Language::Load("english");
 
 
+	Animation::Find("froggy-idle")->Load();
+	Animation::Find("froggy-wave")->Load();
+	Animation::Find("NodHead")->Load();
+	Animation::Find("Flip")->Load();
+	
 	Render::SetSunDirection(glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);
 	Render::SetAmbientColor((glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f) * 0.7f);
@@ -130,7 +139,7 @@ int main() {
 		Loader::Update();
 
 		ControllerComponent::Update();
-		//AnimationComponent::Update();
+		AnimationComponent::Update();
 		
 		//ControllerComponent::Update();
 		
