@@ -79,12 +79,17 @@ int main() {
 	player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
 	player->Load();
 
+	player->controllercomponent->SetWalkSpeed(0.05f);
+	player->controllercomponent->SetCrouchSpeed(0.01f);
+	
 	Ext::Camera::Camera* camera = new Ext::Camera::Camera;
 	camera->SetMouselook(true);
 	camera->SetRotateFollowing(true);
 	camera->SetFollowingOffset({0.0f, 0.5f, 0.0f});
 	camera->SetFollowing(player);
 
+	camera->SetBobbingDistance(0.0f);
+	
 	Ext::Camera::SetCamera(camera);
 
 	// when you hold down the E key

@@ -1,10 +1,12 @@
 CELLv2 house 0 0 
 staticwobj 0 house-worldspawn 0 0 0 0 0 0 worldspawn fullbright 
 button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 12 none none 
-button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.5 5 0.02 none none 
+button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.5 2.5 0.04 none none 
 signal 112 open washing-machine-tumbler 0 -1 toggle none 
 signal 112 open washing-machine-sound 0 -1 start none 
-button 564289123 fridge-door 0 0 0 0 0 0 1 fridge-door fridge-door 4 1 -5 0 1 0 1 5 1.5 none none 
+button 564289123 fridge-door 0 0 0 0 0 0 5 fridge-door fridge-door 4 1 -5 0 1 0 1 0.1 1.5 none none 
+signal 564289123 open fridge-sound 0 -1 start none 
+signal 564289123 close fridge-sound 0 -1 start none 
 decoration 114 froggy1 3.5999997 0.49999997 2.4 0 0.30000016 0 monster/froggy froggy-wave 
 signal 114 use froggy1 0 1 set-animation name froggy-idle 
 signal 114 use froggy-sound 0 1 start none 
@@ -18,11 +20,23 @@ button 804037722 sink-faucet 0 0 0 0 0 0 0 sink-faucet sink-faucet 4 1 -3 0 -1 0
 signal 804037722 open sink-water 0 1 toggle none 
 signal 804037722 open sink-sound 0 1 start none 
 signal 804037722 open sink-faucet 0 1 lock none 
-button 326444868 sink-water 0 0 0 0 0 0 4 sink-water sink-water 4 1 -3 0 1 0 2 5 0.2 none none 
-button 222824307 bath-water 0 0 0 0 0 0 4 bath-water bath-water 4 1 -3 0 1 0 2 5 0.2 none none 
-button 398933704 bath-faucet 0 0 0 0 0 0 0 bath-faucet bath-faucet 4 1 -3 0 -1 0 0.5 5 0.02 none none 
+button 326444868 sink-water 0 0 0 0 0 0 12 sink-water sink-water 4 1 -3 0 1 0 2 5 0.2 none none 
+button 222824307 bath-water 0 0 0 0 0 0 12 bath-water bath-water 4 1 -3 0 1 0 2 5 0.3 none none 
+button 398933704 bath-faucet 0 0 0 0 0 0 1 bath-faucet bath-faucet 1.14 4.36 -9 0 0 1 0.5 5 1.56 none none 
 signal 398933704 open bath-water 0 1 toggle none 
+signal 398933704 open bath-sound 0 1 start none 
+signal 398933704 open bath-faucet 0 1 lock none 
 sound 446744575 sink-sound 1.0999999 1.9000002 -3.000001 0 0 0 0 faucet 1 
 sound 997370370 washing-machine-sound 3.4999993 1.1 -9.3 0 0 0 0 washing 1 
 sound 399371629 froggy-sound 2.4999995 0.8 3.3999991 0 0 0 0 bloop 1 
+sound 800079783 fridge-sound 3.3999996 1.9000002 -4.700001 0 0 0 0 bloop 1 
+sound 849010249 bath-sound 1.6 4.2999997 -9.3 0 0 0 0 faucet 1 
+button 524719074 toilet-button 0 0 0 0 0 0 0 toilet-button toilet-button 4 1 -3 1 0 0 0.5 2.5 0.04 none none 
+signal 524719074 open toilet-sound 0 -1 start none 
+signal 524719074 open toilet-water 0 -1 open none 
+sound 767504272 toilet-sound 3.5000002 3.7999997 -7.299999 0 0 0 0 flush 1 
+button 419901193 toilet-water 0 0 0 0 0 0 8 toilet-water toilet-water 4 1 -3 0 -1 0 1 2.5 0.2 none none 
+decoration 902805561 cielavina 3.06 1.63 -5.42 1.2887047e-07 -0.90000004 1.4148893e-07 items/cielavina none 
+signal 902805561 use cielavina 0 1 kill none 
+signal 902805561 use fridge-sound 0 1 start none 
 transition transition1 house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 

@@ -14,6 +14,7 @@ dev/wall64x64		flat	nearest metal
 dev/wall128x128		flat	nearest metal
 dev/wallstair32x32	flat	nearest metal
 dev/window128x128	flat	nearest metal
+cielavina				flat	nearest metal
 wood1				flat	nearest metal
 wood2				flat	nearest metal
 wood3				flat	nearest metal
