@@ -3,11 +3,26 @@ staticwobj 0 house-worldspawn 0 0 0 0 0 0 worldspawn fullbright
 button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 12 none none 
 button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.5 5 0.02 none none 
 signal 112 open washing-machine-tumbler 0 -1 toggle none 
+signal 112 open washing-machine-sound 0 -1 start none 
 button 564289123 fridge-door 0 0 0 0 0 0 1 fridge-door fridge-door 4 1 -5 0 1 0 1 5 1.5 none none 
 decoration 114 froggy1 3.5999997 0.49999997 2.4 0 0.30000016 0 monster/froggy froggy-wave 
 signal 114 use froggy1 0 1 set-animation name froggy-idle 
+signal 114 use froggy-sound 0 1 start none 
 decoration 962211288 froggy2 2.9999995 0.49999997 2.9 0 0.20000014 0 monster/froggy froggy-wave 
 signal 962211288 use froggy2 0 1 set-animation name froggy-idle 
+signal 962211288 use froggy-sound 0 1 start none 
 decoration 820315353 froggy3 1.5999994 0.29999998 3.1999998 0 -0.3 0 monster/froggy froggy-wave 
 signal 820315353 use froggy3 0 1 set-animation name froggy-idle 
+signal 820315353 use froggy-sound 0 1 start none 
+button 804037722 sink-faucet 0 0 0 0 0 0 0 sink-faucet sink-faucet 4 1 -3 0 -1 0 0.5 5 0.02 none none 
+signal 804037722 open sink-water 0 1 toggle none 
+signal 804037722 open sink-sound 0 1 start none 
+signal 804037722 open sink-faucet 0 1 lock none 
+button 326444868 sink-water 0 0 0 0 0 0 4 sink-water sink-water 4 1 -3 0 1 0 2 5 0.2 none none 
+button 222824307 bath-water 0 0 0 0 0 0 4 bath-water bath-water 4 1 -3 0 1 0 2 5 0.2 none none 
+button 398933704 bath-faucet 0 0 0 0 0 0 0 bath-faucet bath-faucet 4 1 -3 0 -1 0 0.5 5 0.02 none none 
+signal 398933704 open bath-water 0 1 toggle none 
+sound 446744575 sink-sound 1.0999999 1.9000002 -3.000001 0 0 0 0 faucet 1 
+sound 997370370 washing-machine-sound 3.4999993 1.1 -9.3 0 0 0 0 washing 1 
+sound 399371629 froggy-sound 2.4999995 0.8 3.3999991 0 0 0 0 bloop 1 
 transition transition1 house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 

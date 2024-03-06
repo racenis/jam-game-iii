@@ -62,8 +62,8 @@ int main() {
 
 	Animation::Find("froggy-idle")->Load();
 	Animation::Find("froggy-wave")->Load();
-	Animation::Find("NodHead")->Load();
-	Animation::Find("Flip")->Load();
+	//Animation::Find("NodHead")->Load();
+	//Animation::Find("Flip")->Load();
 	
 	Render::SetSunDirection(glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);

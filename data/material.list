@@ -1,32 +1,33 @@
-MATv2
-dev/light			flat	nearest
-dev/nodraw			flat	nearest
-dev/floor32x32		flat	nearest
-dev/floor128x128	flat	nearest
-dev/scaffold32x32	flat	nearest
-dev/scale128x128	flat	nearest
-dev/vent16x16		flat	nearest
-dev/wall8x8			flat	nearest
-dev/wall16x16		flat	nearest
-dev/wall32x32		flat	nearest
-dev/wall64x64		flat	nearest
-dev/wall128x128		flat	nearest
-dev/wallstair32x32	flat	nearest
-dev/window128x128	flat	nearest
-wood1				flat	nearest
-wood2				flat	nearest
-wood3				flat	nearest
-wood4				flat	nearest
-whitetile			flat	nearest
-plaster1			flat	nearest
-brickwall2			flat	nearest
-metal1			flat	nearest
-metal2			flat	nearest
-metal3			flat	nearest
-grass			flat	nearest
-path			flat	nearest
-grasspath			flat	nearest
-bamboo			flat	nearest
-water			flat	nearest
-white			flat	nearest
-monster/froggy	flat	nearest
+MATv3
+dev/light			flat	nearest metal
+dev/sound			flat	nearest metal
+dev/nodraw			flat	nearest metal
+dev/floor32x32		flat	nearest metal
+dev/floor128x128	flat	nearest metal
+dev/scaffold32x32	flat	nearest metal
+dev/scale128x128	flat	nearest metal
+dev/vent16x16		flat	nearest metal
+dev/wall8x8			flat	nearest metal
+dev/wall16x16		flat	nearest metal
+dev/wall32x32		flat	nearest metal
+dev/wall64x64		flat	nearest metal
+dev/wall128x128		flat	nearest metal
+dev/wallstair32x32	flat	nearest metal
+dev/window128x128	flat	nearest metal
+wood1				flat	nearest metal
+wood2				flat	nearest metal
+wood3				flat	nearest metal
+wood4				flat	nearest metal
+whitetile			flat	nearest metal
+plaster1			flat	nearest metal
+brickwall2			flat	nearest metal
+metal1			flat	nearest metal
+metal2			flat	nearest metal
+metal3			flat	nearest metal
+grass			flat	nearest metal
+path			flat	nearest metal
+grasspath			flat	nearest metal
+bamboo			flat	nearest metal
+water			flat	nearest metal
+white			flat	nearest metal
+monster/froggy	flat	nearest metal
