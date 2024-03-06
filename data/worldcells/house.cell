@@ -1,9 +1,13 @@
-#CELLv2 house 0 1 
 CELLv2 house 0 0 
 staticwobj 0 house-worldspawn 0 0 0 0 0 0 worldspawn fullbright 
 button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 12 none none 
 button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.5 5 0.02 none none 
 signal 112 open washing-machine-tumbler 0 -1 toggle none 
 button 564289123 fridge-door 0 0 0 0 0 0 1 fridge-door fridge-door 4 1 -5 0 1 0 1 5 1.5 none none 
-decoration 114 froggy1 0 1 0 0 0 0 monster/froggy froggy-idle
+decoration 114 froggy1 3.5999997 0.49999997 2.4 0 0.30000016 0 monster/froggy froggy-wave 
+signal 114 use froggy1 0 1 set-animation name froggy-idle 
+decoration 962211288 froggy2 2.9999995 0.49999997 2.9 0 0.20000014 0 monster/froggy froggy-wave 
+signal 962211288 use froggy2 0 1 set-animation name froggy-idle 
+decoration 820315353 froggy3 1.5999994 0.29999998 3.1999998 0 -0.3 0 monster/froggy froggy-wave 
+signal 820315353 use froggy3 0 1 set-animation name froggy-idle 
 transition transition1 house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 

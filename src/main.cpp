@@ -31,6 +31,7 @@ using namespace tram;
 using namespace tram::UI;
 using namespace tram::Render;
 using namespace tram::Physics;
+using namespace tram::GUI;
 
 int main() {
 	SetSystemLoggingSeverity(System::SYSTEM_PLATFORM, SEVERITY_WARNING);
@@ -86,30 +87,51 @@ int main() {
 
 	Ext::Camera::SetCamera(camera);
 
-	    Event::AddListener(Event::KEYPRESS, [](Event& event) {
+	// when you hold down the E key
+	Event::AddListener(Event::KEYPRESS, [](Event& event) {
         if (event.subtype != KEY_ACTION_ACTIVATE) return;
         
         vec3 start = Render::GetCameraPosition();
         vec3 direction = Render::GetCameraRotation() * DIRECTION_FORWARD;
         
-        auto result = Physics::Raycast(start, start + 2.0f * direction);
+        auto result = Physics::Raycast(start, start + 2.0f * direction, -1 ^ Physics::COLL_TRIGGER);
         
         if (result.collider) {
             Message::Send({Message::ACTIVATE, 0, result.collider->GetParent()->GetID(), 0});
         }
     });
     
+	// when you press the E key
     Event::AddListener(Event::KEYDOWN, [](Event& event) {
         if (event.subtype != KEY_ACTION_ACTIVATE) return;
         
         vec3 start = Render::GetCameraPosition();
         vec3 direction = Render::GetCameraRotation() * DIRECTION_FORWARD;
         
-        auto result = Physics::Raycast(start, start + 2.0f * direction);
+        auto result = Physics::Raycast(start, start + 2.0f * direction, -1 ^ Physics::COLL_TRIGGER);
         
         if (result.collider) {
             Message::Send({Message::ACTIVATE_ONCE, 0, result.collider->GetParent()->GetID(), 0});
         }
+    });
+	
+	// selects stuff
+	Event::AddListener(Event::TICK, [](Event& event) {
+        vec3 start = Render::GetCameraPosition();
+        vec3 direction = Render::GetCameraRotation() * DIRECTION_FORWARD;
+        
+        auto result = Physics::Raycast(start, start + 2.0f * direction, -1 ^ Physics::COLL_TRIGGER);
+
+        if (result.collider) {
+            Message::Send({Message::SELECT, 0, result.collider->GetParent()->GetID(), 0});
+        }
+    });
+    
+	// shows the select
+    Event::AddListener(Event::SELECTED, [](Event& event) {
+		GUI::Frame(FRAME_BOTTOM, 100);
+		Text("Press [E] to activate.", 4, TEXT_CENTER);
+		GUI::EndFrame();
     });
 	
 	//Physics::DRAW_PHYSICS_DEBUG = true;
