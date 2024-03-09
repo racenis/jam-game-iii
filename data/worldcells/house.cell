@@ -9,12 +9,15 @@ signal 564289123 open fridge-sound 0 -1 start none
 signal 564289123 close fridge-sound 0 -1 start none 
 decoration 114 froggy1 3.5999997 0.49999997 2.4 0 0.30000016 0 monster/froggy froggy-wave 
 signal 114 use froggy1 0 1 set-animation name froggy-idle 
+signal 114 use froggy1 0 1 lock none 
 signal 114 use froggy-sound 0 1 start none 
 decoration 962211288 froggy2 2.9999995 0.49999997 2.9 0 0.20000014 0 monster/froggy froggy-wave 
 signal 962211288 use froggy2 0 1 set-animation name froggy-idle 
+signal 962211288 use froggy2 0 1 lock none 
 signal 962211288 use froggy-sound 0 1 start none 
 decoration 820315353 froggy3 1.5999994 0.29999998 3.1999998 0 -0.3 0 monster/froggy froggy-wave 
 signal 820315353 use froggy3 0 1 set-animation name froggy-idle 
+signal 820315353 use froggy3 0 1 lock none 
 signal 820315353 use froggy-sound 0 1 start none 
 button 804037722 sink-faucet 0 0 0 0 0 0 0 sink-faucet sink-faucet 4 1 -3 0 -1 0 0.5 5 0.02 none none 
 signal 804037722 open sink-water 0 1 toggle none 
@@ -39,4 +42,5 @@ button 419901193 toilet-water 0 0 0 0 0 0 8 toilet-water toilet-water 4 1 -3 0 -
 decoration 902805561 cielavina 3.06 1.63 -5.42 1.2887047e-07 -0.90000004 1.4148893e-07 items/cielavina none 
 signal 902805561 use cielavina 0 1 kill none 
 signal 902805561 use fridge-sound 0 1 start none 
+signal 902805561 use froggy-quest 0 1 ping name pick-up-cake 
 transition transition1 house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 

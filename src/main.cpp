@@ -27,6 +27,8 @@
 #include <extensions/kitchensink/design.h>
 #include <extensions/kitchensink/entities.h>
 
+#include "quest.h"
+
 using namespace tram;
 using namespace tram::UI;
 using namespace tram::Render;
@@ -140,6 +142,30 @@ int main() {
     });
 	
 	//Physics::DRAW_PHYSICS_DEBUG = true;
+	
+	// in the end this would be loaded in from a file, but since this is only a
+	// prototype, we can skip that and just hard-code everything
+	Quest* froggy_quest = Quest::Find("froggy-quest");
+	froggy_quest->name = "froggy-quest";
+	froggy_quest->variables = {
+		{"has-cake", false}
+	};
+	froggy_quest->triggers = {
+		
+		// if has-cake is false, set has-cake to true.
+		// this will be triggered when the cake is activated
+		{"pick-up-cake", {
+			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
+				.variable = "has-cake", .variable_value = true
+			}
+		}, {
+			{.type = TriggerCondition::QUEST_VARIABLE_IS, .quest = "froggy-quest", 
+				.variable = "has-cake", .variable_value = false
+			}
+		}}
+	};
+	
+	froggy_quest->Init();
 	
 	while (!EXIT) {
 		Core::Update();
