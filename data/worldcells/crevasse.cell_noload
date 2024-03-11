@@ -1,0 +1,4 @@
+CELLv2 crevasse 0 0 
+staticwobj 0 worldspawn-crevasse 20 0 21 -3.141592 1.570796 -3.141592 worldspawn-crevasse fullbright 
+transition transition2 crevasse 8 32 -10 74 -34 -10 74 32 -10 5 -34 -10 5 32 10 74 -34 10 74 32 10 5 -34 10 5 
+transition crevasse-to-tunnel tunnel 8 31 -10 5 10 -10 5 31 -10 -10 10 -10 -10 31 10 5 10 10 5 31 10 -10 10 10 -10 

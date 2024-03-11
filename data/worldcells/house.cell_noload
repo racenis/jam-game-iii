@@ -1,7 +1,5 @@
 CELLv2 house 0 0 
 staticwobj 0 worldspawn-house 0 0 0 0 0 0 worldspawn-house fullbright 
-staticwobj 0 worldspawn-tunnel 20 0 -1 0 0 0 worldspawn-tunnel fullbright 
-staticwobj 0 worldspawn-crevasse 20 0 21 -3.141592 1.570796 -3.141592 worldspawn-crevasse fullbright 
 button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 12 none none 
 button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.5 2.5 0.04 none none 
 signal 112 open washing-machine-tumbler 0 -1 toggle none 
@@ -73,11 +71,5 @@ signal 758730594 activate froggy-quest 6 1 ping name where-frogs-4
 trigger 530661735 trigger-start-bath 0 0 0 0 0 0 1 16 trigger-start-bath 
 signal 530661735 activate froggy-quest 0 1 ping name start-bath 
 signal 530661735 activate bath-faucet 0 1 unlock none 
-marker 0 recovery-1 0 3.0999997 0 0 0 0 
-marker 0 recovery-2 16 7 41 0 0 0 
-marker 0 recovery-3 -11 5 64.49999 0 0 0 
-decoration 507374997 aberration-1 20 0 41 0 0 0 1 monster/aberration aberration 
-decoration 408548037 toilet-1 -2.8000002 3 58.7 -3.141592 0.9853985 -3.141592 1 monster/toilet none 
-trigger 922815578 trigger-aberration-warning 20 0 21 -3.141592 1.570796 -3.141592 0 16 trigger-aberration-warning 
-signal 922815578 activate froggy-quest 0 1 ping name aberration-warning 
-transition transition1 house 8 100 -100 100 -100 -100 100 100 -100 -100 -100 -100 -100 100 100 100 -100 100 100 100 100 -100 -100 100 -100 
+transition transition1 house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 
+transition house-to-tunnel tunnel 8 31 -10 5 10 -10 5 31 -10 -10 10 -10 -10 31 10 5 10 10 5 31 10 -10 10 10 -10 

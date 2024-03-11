@@ -1,0 +1,5 @@
+CELLv2 tunnel 0 0 
+staticwobj 0 worldspawn-tunnel 20 0 -1 0 0 0 worldspawn-tunnel fullbright 
+transition transition3 tunnel 8 31 -10 5 10 -10 5 31 -10 -10 10 -10 -10 31 10 5 10 10 5 31 10 -10 10 10 -10 
+transition tunnel-to-house house 8 10 -10 10 -10 -10 10 10 -10 -10 -10 -10 -10 10 10 10 -10 10 10 10 10 -10 -10 10 -10 
+transition tunnel-to-crevasse crevasse 8 32 -10 74 -34 -10 74 32 -10 5 -34 -10 5 32 10 74 -34 10 74 32 10 5 -34 10 5 

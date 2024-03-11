@@ -64,8 +64,10 @@ int main() {
 	Language::Load("english");
 
 
+	// I forgot to make the engine load animations automatically
 	Animation::Find("froggy-idle")->Load();
 	Animation::Find("froggy-wave")->Load();
+	Animation::Find("aberration")->Load();
 	//Animation::Find("NodHead")->Load();
 	//Animation::Find("Flip")->Load();
 	
@@ -73,8 +75,14 @@ int main() {
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);
 	Render::SetAmbientColor((glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f) * 0.7f);
 
+	// TODO: fix segfault in engine AABBtree RemoveLeaf and then split up worldcells again
+	// I hope that keeping everything loaded all the time won't lag the game too much
 	WorldCell* house = WorldCell::Make("house");
+	//WorldCell* tunnel = WorldCell::Make("tunnel");
+	//WorldCell* crevasse = WorldCell::Make("crevasse");
 	house->LoadFromDisk();
+	//tunnel->LoadFromDisk();
+	//crevasse->LoadFromDisk();
 
 	Player* player = new Player;
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 0.05f, 0.0f));
@@ -270,6 +278,38 @@ int main() {
 				.message = "Go\bfind\bthem!"
 			}
 		}, {}},
+		
+		// triggered when triggered
+		{"aberration-warning", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Do\bnot\btouch\bthe\baberration,\bit\bis\bdangerous!"
+			}
+		}, {}},
+		{"aberration-1", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "That\bwas\breally\bdumb...\byou\bcould\bhave\bdied..."
+			}
+		}, {}},
+		{"clumsy", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Why\bare\byou\bso\bclumsy?"
+			}
+		}, {}},
+		{"toilet-warning", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Do\bnot\btouch\bmy\bspecial\btoilet!!!"
+			}
+		}, {}},
+		{"toilet-toilet", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Was\bit\breally\bso\bhard\bnot\bto\bdo\bit?"
+			}
+		}, {}},
+		{"trigger-end-1", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "FROGS"
+			}
+		}, {}},
 	};
 	
 	froggy_quest->Init();
@@ -302,6 +342,23 @@ int main() {
 
 		ControllerComponent::Update();
 		AnimationComponent::Update();
+		
+		
+		// this will place a player in a safe place, if they fall through the
+		// ground
+		vec3 player_pos = player->GetLocation();
+		if (player_pos.y < -5.0f) {
+			std::cout << "Player fell out of the world!" << std::endl;
+			vec3 recovery_1 = Entity::Find("recovery-1")->GetLocation();
+			vec3 recovery_2 = Entity::Find("recovery-2")->GetLocation();
+			vec3 recovery_3 = Entity::Find("recovery-3")->GetLocation();
+			
+			vec3 nearest = recovery_1;
+			if (glm::distance(player_pos, recovery_2) < glm::distance(player_pos, nearest)) nearest = recovery_2;
+			if (glm::distance(player_pos, recovery_3) < glm::distance(player_pos, nearest)) nearest = recovery_3;
+			
+			player->SetLocation(nearest);
+		}
 		
 		//ControllerComponent::Update();
 		
