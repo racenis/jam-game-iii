@@ -11,6 +11,7 @@
 #include <audio/audio.h>
 #include <render/render.h>
 #include <render/material.h>
+#include <render/api.h>
 #include <physics/physics.h>
 #include <entities/player.h>
 #include <entities/staticworldobject.h>
@@ -28,6 +29,8 @@
 #include <extensions/kitchensink/design.h>
 #include <extensions/kitchensink/entities.h>
 
+#include <cstring>
+
 #include "quest.h"
 
 using namespace tram;
@@ -36,7 +39,23 @@ using namespace tram::Render;
 using namespace tram::Physics;
 using namespace tram::GUI;
 
-int main() {
+const int INTRO_LENGTH = 240;
+
+int main(int argc, const char** argv) {
+	bool skip_intro = false;
+	
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[i], "--help") == 0) {
+			std::cout << "game [flags]";
+			std::cout << "\n\t--help display this message";
+			std::cout << "\n\t-nointro skip intro" << std::endl;
+		}
+		if (strcmp(argv[i], "-nointro") == 0)  {
+			std::cout << "Skipping intro..." << std::endl;
+			skip_intro = true;
+		}
+	}
+	
 	SetSystemLoggingSeverity(System::SYSTEM_PLATFORM, SEVERITY_WARNING);
 	
 	StaticWorldObject::Register();
@@ -63,6 +82,7 @@ int main() {
 	Material::LoadMaterialInfo("material");
 	Language::Load("english");
 
+	Render::SetScreenClear({0.95f, 0.95f, 0.95f}, true);
 
 	// I forgot to make the engine load animations automatically
 	Animation::Find("froggy-idle")->Load();
@@ -87,8 +107,8 @@ int main() {
 	Player* player = new Player;
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 0.05f, 0.0f));
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
-	//player->SetLocation(Entity::Find("player-start")->GetLocation());
-	player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
+	player->SetLocation(Entity::Find("player-start-2")->GetLocation());
+	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
 	player->Load();
 
 	player->controllercomponent->SetWalkSpeed(0.05f);
@@ -307,7 +327,7 @@ int main() {
 		}, {}},
 		{"trigger-end-1", {
 			{.type = TriggerAction::SHOW_MESSAGE,
-				.message = "FROGS"
+				.message = "THE END"
 			}
 		}, {}},
 	};
@@ -318,8 +338,6 @@ int main() {
 		Core::Update();
 		UI::Update();
 		Physics::Update();
-		
-		Ext::Camera::Update();
 		
 		GUI::Begin();
 		Ext::Menu::DebugMenu();
@@ -340,9 +358,28 @@ int main() {
 
 		Loader::Update();
 
-		ControllerComponent::Update();
+		
 		AnimationComponent::Update();
 		
+		// intro animation
+		if (GetTick() > INTRO_LENGTH || skip_intro) {
+			ControllerComponent::Update();
+			Ext::Camera::Update();
+		} else {
+			vec3 begin_pos = Entity::Find("player-start-1")->GetLocation();
+			vec3 end_pos = Entity::Find("player-start-2")->GetLocation();
+			end_pos.y += 0.5f;
+			quat begin_rot = vec3(1.57f, 1.57f, 0.0f);
+			quat end_rot = vec3(0.0f, 0.0f, 0.0f);
+			
+			float camera_mix = (float)GetTick()/(float)INTRO_LENGTH;
+			
+			vec3 camera_pos = glm::mix(begin_pos, end_pos, camera_mix);
+			quat camera_rot = glm::mix(begin_rot, end_rot, camera_mix);
+			
+			Render::SetCameraPosition(camera_pos);
+			Render::SetCameraRotation(camera_rot);
+		}
 		
 		// this will place a player in a safe place, if they fall through the
 		// ground
