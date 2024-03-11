@@ -1,5 +1,7 @@
 CELLv2 house 0 0 
-staticwobj 0 house-worldspawn 0 0 0 0 0 0 worldspawn fullbright 
+staticwobj 0 worldspawn-house 0 0 0 0 0 0 worldspawn-house fullbright 
+staticwobj 0 worldspawn-tunnel 20 0 -1 0 0 0 worldspawn-tunnel fullbright 
+staticwobj 0 worldspawn-crevasse 20 0 21 -3.141592 1.570796 -3.141592 worldspawn-crevasse fullbright 
 button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 12 none none 
 button 112 washing-machine-button 0 0 0 0 0 0 0 washing-machine-button washing-machine-button 4 1.1 -9.4 1 0 0 0.5 2.5 0.04 none none 
 signal 112 open washing-machine-tumbler 0 -1 toggle none 
@@ -58,13 +60,16 @@ decoration 902805561 cielavina 3.06 1.63 -5.42 1.2887047e-07 -0.90000004 1.41488
 signal 902805561 use cielavina 0 1 kill none 
 signal 902805561 use fridge-sound 0 1 start none 
 signal 902805561 use froggy-quest 0 1 ping name pick-up-cake 
+signal 902805561 use froggy1 0 1 unlock none 
+signal 902805561 use froggy2 0 1 unlock none 
+signal 902805561 use froggy3 0 1 unlock none 
 trigger 475327381 trigger-feed-frogs 0 0 0 0 0 0 0 16 trigger-feed-frogs 
 signal 475327381 activate froggy-quest 0 1 ping name feed-frogs 
 trigger 758730594 trigger-where-frogs 0 0 0 0 0 0 1 16 trigger-where-frogs 
-signal 758730594 activate froggy-quest 0.0 1 ping name where-frogs-1 
-signal 758730594 activate froggy-quest 2.0 1 ping name where-frogs-2 
-signal 758730594 activate froggy-quest 4.0 1 ping name where-frogs-3 
-signal 758730594 activate froggy-quest 6.0 1 ping name where-frogs-4 
+signal 758730594 activate froggy-quest 0 1 ping name where-frogs-1 
+signal 758730594 activate froggy-quest 2 1 ping name where-frogs-2 
+signal 758730594 activate froggy-quest 4 1 ping name where-frogs-3 
+signal 758730594 activate froggy-quest 6 1 ping name where-frogs-4 
 trigger 530661735 trigger-start-bath 0 0 0 0 0 0 1 16 trigger-start-bath 
 signal 530661735 activate froggy-quest 0 1 ping name start-bath 
 signal 530661735 activate bath-faucet 0 1 unlock none 
