@@ -9,6 +9,10 @@
 using namespace tram;
 
 // experimental prototype quest abstraction thing
+
+// the end goal is to create a no-code quest thing, similar to what you get
+// with rpg maker or other engines
+
 struct TriggerCondition {
 	enum Type {
 		QUEST_STAGE_IS,
@@ -57,6 +61,8 @@ struct Quest {
 	static Quest* Find(name_t quest);
 	
 	void Init();
+	
+	static void Update();
 	
 	name_t name;
 	std::vector<std::pair<name_t, value_t>> variables;

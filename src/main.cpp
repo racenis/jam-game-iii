@@ -19,6 +19,7 @@
 #include <entities/marker.h>
 #include <entities/sound.h>
 #include <entities/decoration.h>
+#include <entities/trigger.h>
 #include <components/player.h>
 #include <components/controller.h>
 #include <components/render.h>
@@ -44,6 +45,7 @@ int main() {
 	Marker::Register();
 	Sound::Register();
 	Decoration::Register();
+	Trigger::Register();
 	Ext::Design::Button::Register();
 
 	Core::Init();
@@ -137,7 +139,7 @@ int main() {
 	// shows the select
     Event::AddListener(Event::SELECTED, [](Event& event) {
 		GUI::Frame(FRAME_BOTTOM, 100);
-		Text("Press [E] to activate.", 4, TEXT_CENTER);
+		Text("Press\b[E]\bto\bactivate.", 4, TEXT_CENTER);
 		GUI::EndFrame();
     });
 	
@@ -148,7 +150,8 @@ int main() {
 	Quest* froggy_quest = Quest::Find("froggy-quest");
 	froggy_quest->name = "froggy-quest";
 	froggy_quest->variables = {
-		{"has-cake", false}
+		{"has-cake", false},
+		{"frogs-fed", 0},
 	};
 	froggy_quest->triggers = {
 		
@@ -157,12 +160,116 @@ int main() {
 		{"pick-up-cake", {
 			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
 				.variable = "has-cake", .variable_value = true
+			},
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Got\bcake!"
 			}
 		}, {
 			{.type = TriggerCondition::QUEST_VARIABLE_IS, .quest = "froggy-quest", 
 				.variable = "has-cake", .variable_value = false
 			}
-		}}
+		}},
+		
+		// this will be fired when you feed the frogs.
+		// for the final version of the quest system thing, it would be a good
+		// idea to add some kind of a "increment variable" operation 
+		{"feed-frog-3", {
+			// perform
+			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
+				.variable = "frogs-fed", .variable_value = 3
+			},
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Fed\bcake\bto\bfrog\b(3/3)"
+			},
+			{.type = TriggerAction::SEND_MESSAGE,
+				.msg = {
+					.type = Message::UNLOCK,
+					.sender = 0,
+					.receiver = Entity::Find("trigger-start-bath")->GetID()
+				}
+			}
+		}, {
+			// if
+			{.type = TriggerCondition::QUEST_VARIABLE_IS, .quest = "froggy-quest", 
+				.variable = "frogs-fed", .variable_value = 2
+			}
+		}},
+		{"feed-frog-2", {
+			// perform
+			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
+				.variable = "frogs-fed", .variable_value = 2
+			},
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Fed\bcake\bto\bfrog\b(2/3)"
+			}
+		}, {
+			// if
+			{.type = TriggerCondition::QUEST_VARIABLE_IS, .quest = "froggy-quest", 
+				.variable = "frogs-fed", .variable_value = 1
+			}
+		}},
+		{"feed-frog-1", {
+			// perform
+			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
+				.variable = "frogs-fed", .variable_value = 1
+			},
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Fed\bcake\bto\bfrog\b(1/3)"
+			}
+		}, {
+			// if
+			{.type = TriggerCondition::QUEST_VARIABLE_IS, .quest = "froggy-quest", 
+				.variable = "frogs-fed", .variable_value = 0
+			}
+		}},
+		
+		{"bath-faucet-locked", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "A\bmysterious\bforce\bprevents\byou\bfrom sequence-breaking..."
+			}
+		}, {}},
+		
+		{"feed-frogs", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Feed\bthe\bfrogs."
+			}
+		}, {}},
+		
+		// triggered when going into the house after feeding the frogs
+		{"start-bath", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "It\bis\btime\bto\bgive\bthe\bfrogs\ba\bbath!"
+			}
+		}, {}},
+		
+		// triggered when filling the bath
+		{"get-frogs", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Get\bthe\bfrogs."
+			}
+		}, {}},
+		
+		// triggered when coming out of the house after filling bath
+		{"where-frogs-1", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Where\bare\bthe\bfrogs?"
+			}
+		}, {}},
+		{"where-frogs-2", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "What\bdid\byou\bdo?"
+			}
+		}, {}},
+		{"where-frogs-3", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Why\bdo\byou\balways\bhave\bto\bruin\beverything..."
+			}
+		}, {}},
+		{"where-frogs-4", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Go\bfind\bthem!"
+			}
+		}, {}},
 	};
 	
 	froggy_quest->Init();
@@ -178,6 +285,8 @@ int main() {
 		Ext::Menu::DebugMenu();
 		Ext::Menu::EscapeMenu();
 
+		Quest::Update();
+		
 		GUI::End();
 		GUI::Update();
 		

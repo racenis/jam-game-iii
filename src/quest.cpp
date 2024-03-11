@@ -1,9 +1,15 @@
 #include "quest.h"
 
 #include <framework/entity.h>
+#include <framework/gui.h>
 #include <templates/pool.h>
 
+#include <cstring>
+
 // quest methods and stuff
+
+static const char* message_displayed = nullptr;
+static size_t message_progress = 0;
 
 bool TriggerCondition::Valid() {
 	switch (type) {
@@ -25,7 +31,9 @@ void TriggerAction::Perform() {
 			std::cout << "Setting " << quest << " variable " << variable << std::endl;
 			break;
 		case SHOW_MESSAGE:
-			std::cout << "MEEEESSASGGGEE" << std::endl;
+			std::cout << "MSG: " << message << std::endl;
+			message_displayed = message;
+			message_progress = 0;
 			break;
 		case SEND_MESSAGE:
 			std::cout << "Sending mesagae" << std::endl;
@@ -35,7 +43,7 @@ void TriggerAction::Perform() {
 }
 
 void QuestTrigger::Fire() {
-	std::cout << "FUIRUIIGN "<< name << std::endl;
+	std::cout << "FIRING "<< name << std::endl;
 	
 	for (auto& cond : conditions) {
 		if (!cond.Valid()) return;
@@ -83,13 +91,31 @@ Quest* Quest::Find(name_t quest) {
 	return PoolProxy<Quest>::New();
 }
 
+void Quest::Update() {
+	using namespace tram::GUI;
+	
+	if (message_displayed) {
+		char display_buf[200];
+		strncpy(display_buf, message_displayed, ++message_progress);
+		display_buf[message_progress] = '\0';
+		
+		Frame(FRAME_BOTTOM, 300);
+		Text(display_buf, 4, TEXT_CENTER);
+		EndFrame();
+		
+		if (message_progress >= 120) {
+			message_displayed = nullptr;
+		}
+	}
+	
+
+}
+
 // quest entity stuff
 
 // we need quest to have an entity, since in this engine only entities can 
 // receive messages. we need to receive messages, since that is how buttons
 // and stuff work and we need to trigger quest stuff from buttons and stuff
-
-
 
 class QuestEntity : public Entity {
 public:

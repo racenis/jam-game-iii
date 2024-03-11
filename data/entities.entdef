@@ -43,6 +43,14 @@ begin
 	field string animation
 end
 
+begin
+	name trigger
+	model none
+	field uint flags
+	field uint collision-mask
+	field string model
+end
+
 # additional extension entities
 
 begin
