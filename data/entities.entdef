@@ -39,6 +39,7 @@ end
 begin
 	name decoration
 	model none
+	field uint flags
 	field string model
 	field string animation
 end

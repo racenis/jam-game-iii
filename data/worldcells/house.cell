@@ -7,27 +7,24 @@ signal 112 open washing-machine-sound 0 -1 start none
 button 564289123 fridge-door 0 0 0 0 0 0 5 fridge-door fridge-door 4 1 -5 0 1 0 1 0.1 1.5 none none 
 signal 564289123 open fridge-sound 0 -1 start none 
 signal 564289123 close fridge-sound 0 -1 start none 
-decoration 114 froggy1 3.5999997 0.49999997 2.4 0 0.30000016 0 monster/froggy froggy-wave 
+decoration 114 froggy1 3.5999997 0.49999997 2.4 0 0.30000016 0 1 monster/froggy froggy-wave 
 signal 114 use froggy1 0 1 set-animation name froggy-idle 
 signal 114 use froggy1 0 1 lock none 
 signal 114 use froggy-sound 0 1 start none 
-signal 114 use froggy-quest 2 1 ping name feed-frog-4 
 signal 114 use froggy-quest 0 1 ping name feed-frog-3 
 signal 114 use froggy-quest 0 1 ping name feed-frog-2 
 signal 114 use froggy-quest 0 1 ping name feed-frog-1 
-decoration 962211288 froggy2 2.9999995 0.49999997 2.9 0 0.20000014 0 monster/froggy froggy-wave 
+decoration 962211288 froggy2 2.9999995 0.49999997 2.9 0 0.20000014 0 1 monster/froggy froggy-wave 
 signal 962211288 use froggy2 0 1 set-animation name froggy-idle 
 signal 962211288 use froggy2 0 1 lock none 
 signal 962211288 use froggy-sound 0 1 start none 
-signal 962211288 use froggy-quest 2 1 ping name feed-frog-4 
 signal 962211288 use froggy-quest 0 1 ping name feed-frog-3 
 signal 962211288 use froggy-quest 0 1 ping name feed-frog-2 
 signal 962211288 use froggy-quest 0 1 ping name feed-frog-1 
-decoration 820315353 froggy3 1.5999994 0.29999998 3.1999998 0 -0.3 0 monster/froggy froggy-wave 
+decoration 820315353 froggy3 1.5999994 0.29999998 3.1999998 0 -0.3 0 1 monster/froggy froggy-wave 
 signal 820315353 use froggy3 0 1 set-animation name froggy-idle 
 signal 820315353 use froggy3 0 1 lock none 
 signal 820315353 use froggy-sound 0 1 start none 
-signal 820315353 use froggy-quest 2 1 ping name feed-frog-4 
 signal 820315353 use froggy-quest 0 1 ping name feed-frog-3 
 signal 820315353 use froggy-quest 0 1 ping name feed-frog-2 
 signal 820315353 use froggy-quest 0 1 ping name feed-frog-1 
@@ -43,6 +40,10 @@ signal 398933704 open bath-sound 0 1 start none
 signal 398933704 open bath-faucet 0 1 lock none 
 signal 398933704 locked-use froggy-quest 0 -1 ping name bath-faucet-locked 
 signal 398933704 open trigger-where-frogs 0 1 unlock none 
+signal 398933704 open froggy-quest 1.5 1 ping name get-frogs 
+signal 398933704 open froggy1 0 1 kill none 
+signal 398933704 open froggy2 0 1 kill none 
+signal 398933704 open froggy3 0 1 kill none 
 sound 446744575 sink-sound 1.0999999 1.9000002 -3.000001 0 0 0 0 faucet 1 
 sound 997370370 washing-machine-sound 3.4999993 1.1 -9.3 0 0 0 0 washing 1 
 sound 399371629 froggy-sound 2.4999995 0.8 3.3999991 0 0 0 0 bloop 1 
@@ -53,14 +54,17 @@ signal 524719074 open toilet-sound 0 -1 start none
 signal 524719074 open toilet-water 0 -1 open none 
 sound 767504272 toilet-sound 3.5000002 3.7999997 -7.299999 0 0 0 0 flush 1 
 button 419901193 toilet-water 0 0 0 0 0 0 8 toilet-water toilet-water 4 1 -3 0 -1 0 1 2.5 0.2 none none 
-decoration 902805561 cielavina 3.06 1.63 -5.42 1.2887047e-07 -0.90000004 1.4148893e-07 items/cielavina none 
+decoration 902805561 cielavina 3.06 1.63 -5.42 1.2887047e-07 -0.90000004 1.4148893e-07 0 items/cielavina none 
 signal 902805561 use cielavina 0 1 kill none 
 signal 902805561 use fridge-sound 0 1 start none 
 signal 902805561 use froggy-quest 0 1 ping name pick-up-cake 
 trigger 475327381 trigger-feed-frogs 0 0 0 0 0 0 0 16 trigger-feed-frogs 
-signal 475327381 activate froggy-quest 0 -1 ping name feed-frogs 
+signal 475327381 activate froggy-quest 0 1 ping name feed-frogs 
 trigger 758730594 trigger-where-frogs 0 0 0 0 0 0 1 16 trigger-where-frogs 
-signal 758730594 activate froggy-quest 0 1 ping name where-frogs 
+signal 758730594 activate froggy-quest 0.0 1 ping name where-frogs-1 
+signal 758730594 activate froggy-quest 2.0 1 ping name where-frogs-2 
+signal 758730594 activate froggy-quest 4.0 1 ping name where-frogs-3 
+signal 758730594 activate froggy-quest 6.0 1 ping name where-frogs-4 
 trigger 530661735 trigger-start-bath 0 0 0 0 0 0 1 16 trigger-start-bath 
 signal 530661735 activate froggy-quest 0 1 ping name start-bath 
 signal 530661735 activate bath-faucet 0 1 unlock none 
