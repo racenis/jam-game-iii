@@ -35,6 +35,7 @@ water				flat	nearest metal
 white				flat	nearest metal
 monster/froggy		flat	nearest metal
 monster/aberration	flat	linear	metal
+monster/cat			flat	nearest	metal
 picture1			flat	nearest	metal
 picture2			flat	nearest	metal
 picture3			flat	nearest	metal
