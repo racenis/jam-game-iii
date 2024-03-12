@@ -76,7 +76,7 @@ int main(int argc, const char** argv) {
 	UI::Init();
 	Render::Init();
 	Physics::Init();
-	Async::Init();
+	Async::Init(0);
 	Audio::Init();
 	GUI::Init();
 
@@ -95,7 +95,7 @@ int main(int argc, const char** argv) {
 	Animation::Find("cat-disappointed")->Load();
 	Animation::Find("cat-hand")->Load();
 	
-	Render::SetSunDirection(glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
+	Render::SetSunDirection(glm::normalize(glm::vec3(0.5f, 1.0f, 0.75f)));
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);
 	Render::SetAmbientColor((glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f) * 0.7f);
 	Render::SetScreenClear(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f, true);
@@ -406,6 +406,7 @@ void main_loop() {
 	GUI::End();
 	GUI::Update();
 	
+	Async::ResourceLoader1stStage();
 	Async::ResourceLoader2ndStage();
 	Async::FinishResource();
 	
@@ -443,11 +444,16 @@ void main_loop() {
 		quat camera_target = glm::quatLookAt(dir, DIRECTION_UP);
 		quat camera_current = Render::GetCameraRotation();
 		
-		if (froggy_quest->GetVariable("outro")) {
-			camera_target = vec3(1.57f, 0.0f, 0.0f);
-		}
+		// yeah, idk why this bit glitches out only on emscripten
+		#ifdef __EMSCRIPTEN__
+			quat camera_rot = camera_target;
+		#else
+			if (froggy_quest->GetVariable("outro")) {
+				camera_target = vec3(1.57f, 0.0f, 0.0f);
+			}	
 		
-		quat camera_rot = glm::mix(camera_target, camera_current, 0.99f);
+			quat camera_rot = glm::mix(camera_target, camera_current, 0.99f);
+		#endif
 		
 		Render::SetCameraRotation(camera_rot);
 	}
