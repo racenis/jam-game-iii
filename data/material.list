@@ -33,6 +33,7 @@ grasspath			flat	nearest metal
 bamboo				flat	nearest metal
 water				flat	nearest metal
 white				flat	nearest metal
+button				flat	nearest metal
 monster/froggy		flat	nearest metal
 monster/aberration	flat	linear	metal
 monster/cat			flat	nearest	metal

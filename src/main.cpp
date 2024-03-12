@@ -29,6 +29,8 @@
 #include <extensions/kitchensink/design.h>
 #include <extensions/kitchensink/entities.h>
 
+#include <platform/time.h>
+
 #include <cstring>
 
 #include "quest.h"
@@ -40,10 +42,13 @@ using namespace tram::Physics;
 using namespace tram::GUI;
 
 const int INTRO_LENGTH = 240;
+bool skip_intro = false;
+Player* player = nullptr;
+Quest* froggy_quest = nullptr;
+
+void main_loop();
 
 int main(int argc, const char** argv) {
-	bool skip_intro = false;
-	
 	for (int i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "--help") == 0) {
 			std::cout << "game [flags]";
@@ -82,23 +87,19 @@ int main(int argc, const char** argv) {
 	Material::LoadMaterialInfo("material");
 	Language::Load("english");
 
-	//Render::SetScreenClear({0.95f, 0.95f, 0.95f}, true);
-	Render::SetScreenClear(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f, true);
-	//Render::SetSunDirection(glm::normalize(vec3(1.0f, 1.0f, 1.0f)));
-	//Render::SetSunColor({1.0f, 1.0f, 1.0f});
-	//Render::SetAmbientColor({1.0f, 1.0f, 1.0f});
-
 	// I forgot to make the engine load animations automatically
 	Animation::Find("froggy-idle")->Load();
 	Animation::Find("froggy-wave")->Load();
 	Animation::Find("aberration")->Load();
-	//Animation::Find("NodHead")->Load();
-	//Animation::Find("Flip")->Load();
+	Animation::Find("cat-waiting")->Load();
+	Animation::Find("cat-disappointed")->Load();
+	Animation::Find("cat-hand")->Load();
 	
 	Render::SetSunDirection(glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);
 	Render::SetAmbientColor((glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f) * 0.7f);
-
+	Render::SetScreenClear(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f, true);
+	
 	// TODO: fix segfault in engine AABBtree RemoveLeaf and then split up worldcells again
 	// I hope that keeping everything loaded all the time won't lag the game too much
 	WorldCell* house = WorldCell::Make("house");
@@ -108,7 +109,7 @@ int main(int argc, const char** argv) {
 	//tunnel->LoadFromDisk();
 	//crevasse->LoadFromDisk();
 
-	Player* player = new Player;
+	player = new Player;
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 0.05f, 0.0f));
 	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
 	player->SetLocation(Entity::Find("player-start-2")->GetLocation());
@@ -117,6 +118,7 @@ int main(int argc, const char** argv) {
 
 	player->controllercomponent->SetWalkSpeed(0.05f);
 	player->controllercomponent->SetCrouchSpeed(0.01f);
+	player->controllercomponent->SetRunSpeed(0.1f);
 	
 	Ext::Camera::Camera* camera = new Ext::Camera::Camera;
 	camera->SetMouselook(true);
@@ -179,11 +181,13 @@ int main(int argc, const char** argv) {
 	
 	// in the end this would be loaded in from a file, but since this is only a
 	// prototype, we can skip that and just hard-code everything
-	Quest* froggy_quest = Quest::Find("froggy-quest");
+	froggy_quest = Quest::Find("froggy-quest");
 	froggy_quest->name = "froggy-quest";
 	froggy_quest->variables = {
 		{"has-cake", false},
 		{"frogs-fed", 0},
+		{"lock-player", false},
+		{"outro", false},
 	};
 	froggy_quest->triggers = {
 		
@@ -267,6 +271,12 @@ int main(int argc, const char** argv) {
 			}
 		}, {}},
 		
+		{"get-cake", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Check\bthe\bfridge\bfor\bfood."
+			}
+		}, {}},
+		
 		// triggered when going into the house after feeding the frogs
 		{"start-bath", {
 			{.type = TriggerAction::SHOW_MESSAGE,
@@ -329,83 +339,136 @@ int main(int argc, const char** argv) {
 				.message = "Was\bit\breally\bso\bhard\bnot\bto\bdo\bit?"
 			}
 		}, {}},
+		
 		{"trigger-end-1", {
 			{.type = TriggerAction::SHOW_MESSAGE,
-				.message = "THE END"
+				.message = "I\bfound\ball\bthe\bfrogs\bmyself."
+			},
+			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
+				.variable = "lock-player", .variable_value = true
 			}
 		}, {}},
+		{"trigger-end-2", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Without\byour\bhelp."
+			}
+		}, {}},
+		{"trigger-end-3", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "Give\bhand."
+			}
+		}, {}},
+		{"trigger-end-4", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "We\bare\bwalking\boff\binto\bthe\bsunset."
+			}
+		}, {}},
+		{"trigger-end-5", {
+			{.type = TriggerAction::SHOW_MESSAGE,
+				.message = "THE\bEND"
+			},
+			{.type = TriggerAction::QUEST_VARIABLE_SET, .quest = "froggy-quest", 
+				.variable = "outro", .variable_value = true
+			}
+		}, {}},
+		
+		
 	};
 	
 	froggy_quest->Init();
 	
-	while (!EXIT) {
-		Core::Update();
-		UI::Update();
-		Physics::Update();
-		
-		GUI::Begin();
-		Ext::Menu::DebugMenu();
-		Ext::Menu::EscapeMenu();
+	
+	#ifdef __EMSCRIPTEN__
+		UI::SetWebMainLoop(main_loop);
+	#else
+		while (!EXIT) {
+			main_loop();
+		}
 
-		Quest::Update();
-		
-		GUI::End();
-		GUI::Update();
-		
-		Async::ResourceLoader2ndStage();
-		Async::FinishResource();
-		
-		Event::Dispatch();
-		Message::Dispatch();
-		
-		Entity::UpdateFromList();
+		Async::Yeet();
+		Audio::Uninit();
+		UI::Uninit();
+	#endif
+}
 
-		Loader::Update();
+void main_loop() {
+	Core::Update();
+	UI::Update();
+	
+	Physics::Update();
+	
+	GUI::Begin();
+	Ext::Menu::DebugMenu();
+	Ext::Menu::EscapeMenu();
 
+	Quest::Update();
+	
+	GUI::End();
+	GUI::Update();
+	
+	Async::ResourceLoader2ndStage();
+	Async::FinishResource();
+	
+	Event::Dispatch();
+	Message::Dispatch();
+	
+	Entity::UpdateFromList();
+
+	Loader::Update();
+
+	
+	// intro and outro animations
+	if ((GetTick() > INTRO_LENGTH || skip_intro) && !froggy_quest->GetVariable("lock-player")) {
+		ControllerComponent::Update();
+		Ext::Camera::Update();
+	} else if (GetTick() <= INTRO_LENGTH) {
+		vec3 begin_pos = Entity::Find("player-start-1")->GetLocation();
+		vec3 end_pos = Entity::Find("player-start-2")->GetLocation();
+		end_pos.y += 0.5f;
+		quat begin_rot = vec3(1.57f, 1.57f, 0.0f);
+		quat end_rot = vec3(0.0f, 0.0f, 0.0f);
 		
-		AnimationComponent::Update();
+		float camera_mix = (float)GetTick()/(float)INTRO_LENGTH;
 		
-		// intro animation
-		if (GetTick() > INTRO_LENGTH || skip_intro) {
-			ControllerComponent::Update();
-			Ext::Camera::Update();
-		} else {
-			vec3 begin_pos = Entity::Find("player-start-1")->GetLocation();
-			vec3 end_pos = Entity::Find("player-start-2")->GetLocation();
-			end_pos.y += 0.5f;
-			quat begin_rot = vec3(1.57f, 1.57f, 0.0f);
-			quat end_rot = vec3(0.0f, 0.0f, 0.0f);
-			
-			float camera_mix = (float)GetTick()/(float)INTRO_LENGTH;
-			
-			vec3 camera_pos = glm::mix(begin_pos, end_pos, camera_mix);
-			quat camera_rot = glm::mix(begin_rot, end_rot, camera_mix);
-			
-			Render::SetCameraPosition(camera_pos);
-			Render::SetCameraRotation(camera_rot);
+		vec3 camera_pos = glm::mix(begin_pos, end_pos, camera_mix);
+		quat camera_rot = glm::mix(begin_rot, end_rot, camera_mix);
+		
+		Render::SetCameraPosition(camera_pos);
+		Render::SetCameraRotation(camera_rot);
+	} else {
+		vec3 from = Render::GetCameraPosition();
+		vec3 to = Entity::Find("catter")->GetLocation() + vec3(0.0f, 1.0f, 0.0f);
+		vec3 dir = glm::normalize(to - from);
+		
+		quat camera_target = glm::quatLookAt(dir, DIRECTION_UP);
+		quat camera_current = Render::GetCameraRotation();
+		
+		if (froggy_quest->GetVariable("outro")) {
+			camera_target = vec3(1.57f, 0.0f, 0.0f);
 		}
 		
-		// this will place a player in a safe place, if they fall through the
-		// ground
-		vec3 player_pos = player->GetLocation();
-		if (player_pos.y < -5.0f) {
-			std::cout << "Player fell out of the world!" << std::endl;
-			vec3 recovery_1 = Entity::Find("recovery-1")->GetLocation();
-			vec3 recovery_2 = Entity::Find("recovery-2")->GetLocation();
-			vec3 recovery_3 = Entity::Find("recovery-3")->GetLocation();
-			
-			vec3 nearest = recovery_1;
-			if (glm::distance(player_pos, recovery_2) < glm::distance(player_pos, nearest)) nearest = recovery_2;
-			if (glm::distance(player_pos, recovery_3) < glm::distance(player_pos, nearest)) nearest = recovery_3;
-			
-			player->SetLocation(nearest);
-		}
+		quat camera_rot = glm::mix(camera_target, camera_current, 0.99f);
 		
-		//ControllerComponent::Update();
-		
-		Render::Render();
-		UI::EndFrame();
+		Render::SetCameraRotation(camera_rot);
 	}
 	
-	Async::Yeet();
+	// this will place a player in a safe place, if they fall through the
+	// ground
+	if (vec3 player_pos = player->GetLocation(); player_pos.y < -5.0f) {
+		std::cout << "Player fell out of the world!" << std::endl;
+		vec3 recovery_1 = Entity::Find("recovery-1")->GetLocation();
+		vec3 recovery_2 = Entity::Find("recovery-2")->GetLocation();
+		vec3 recovery_3 = Entity::Find("recovery-3")->GetLocation();
+		
+		vec3 nearest = recovery_1;
+		if (glm::distance(player_pos, recovery_2) < glm::distance(player_pos, nearest)) nearest = recovery_2;
+		if (glm::distance(player_pos, recovery_3) < glm::distance(player_pos, nearest)) nearest = recovery_3;
+		
+		player->SetLocation(nearest);
+	}
+	
+	AnimationComponent::Update();
+	
+	Render::Render();
+	UI::EndFrame();
 }
