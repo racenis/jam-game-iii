@@ -2,9 +2,9 @@
 
 A video game about petting frogs and stuff.
 
-[https://racenis.itch.io/froggy-garden](Compiled web version.)
+[Compiled web version.](https://racenis.itch.io/froggy-garden)
 
-[https://github.com/racenis/tram-sdk](Engine.)
+[Engine.](https://github.com/racenis/tram-sdk)
 
 ### Software used
 
