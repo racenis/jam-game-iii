@@ -1,5 +1,5 @@
-CELLv2 house 0 1 
-staticwobj 0 worldspawn-house 0 0 0 0 0 0 worldspawn-house lightmap/worldspawn-house 
+CELLv2 house 0 0 
+staticwobj 0 worldspawn-house 0 0 0 0 0 0 worldspawn-house fullbright 
 staticwobj 0 worldspawn-tunnel 20 0 -1 0 0 0 worldspawn-tunnel fullbright 
 staticwobj 0 worldspawn-crevasse 20 0 21 -3.141592 1.570796 -3.141592 worldspawn-crevasse fullbright 
 button 111 washing-machine-tumbler 0 0 0 0 0 0 13 washing-machine-tumbler washing-machine-tumbler 4 1.1 -9.4 1 0 0 5 0 12 none none 
@@ -98,4 +98,11 @@ signal 618848488 use froggy-quest 0 1 ping name feed-frog-2
 signal 618848488 use froggy-quest 0 1 ping name feed-frog-1 
 marker 657728578 player-start-1 3.5 4.299999 -3.1999996 0 0 0 
 marker 736468077 player-start-2 1.4999995 4.499999 -4.7999988 0 0 0 
+light 273140235 none 1.0036066 11.394369 3.8579116 0 0 0 5 5 5 30 
+light 209907302 none 0.30360654 2.3943686 1.2579099 0 0 0 1 1 1 10 
+light 368935260 none 1.6036067 1.3943683 -4.842089 0 0 0 0.5 0.5 0.5 5 
+light 979471331 none 2.3036067 2.2943683 -8.942087 0 0 0 0.5 0.5 0.5 5 
+light 678135464 none -0.6963935 4.8943667 -13.44209 0 0 0 1 1 1 10 
+light 433283503 none 2.4036064 4.8943667 -7.842083 0 0 0 0.5 0.5 0.5 5 
+light 593275372 none 1.6036067 5.3943663 -4.842089 0 0 0 0.5 0.5 0.5 5 
 transition transition1 house 8 100 -100 100 -100 -100 100 100 -100 -100 -100 -100 -100 100 100 100 -100 100 100 100 100 -100 -100 100 -100 

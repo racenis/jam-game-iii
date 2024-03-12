@@ -82,7 +82,11 @@ int main(int argc, const char** argv) {
 	Material::LoadMaterialInfo("material");
 	Language::Load("english");
 
-	Render::SetScreenClear({0.95f, 0.95f, 0.95f}, true);
+	//Render::SetScreenClear({0.95f, 0.95f, 0.95f}, true);
+	Render::SetScreenClear(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f, true);
+	//Render::SetSunDirection(glm::normalize(vec3(1.0f, 1.0f, 1.0f)));
+	//Render::SetSunColor({1.0f, 1.0f, 1.0f});
+	//Render::SetAmbientColor({1.0f, 1.0f, 1.0f});
 
 	// I forgot to make the engine load animations automatically
 	Animation::Find("froggy-idle")->Load();
@@ -91,7 +95,7 @@ int main(int argc, const char** argv) {
 	//Animation::Find("NodHead")->Load();
 	//Animation::Find("Flip")->Load();
 	
-	Render::SetSunDirection(glm::normalize(glm::vec3(0.0f, 1.0f, 0.5f)));
+	Render::SetSunDirection(glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
 	Render::SetSunColor(glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f);
 	Render::SetAmbientColor((glm::vec3(250.0f, 214.0f, 165.0f) / 256.0f * 0.8f) * 0.7f);
 
