@@ -31,23 +31,23 @@ void TriggerAction::Perform() {
 			std::cout << "Setting " << quest << " variable " << variable << std::endl;
 			break;
 		case SHOW_MESSAGE:
-			std::cout << "MSG: " << message << std::endl;
+			std::cout << "Showing message: " << message << std::endl;
 			message_displayed = message;
 			message_progress = 0;
 			break;
 		case SEND_MESSAGE:
-			std::cout << "Sending mesagae" << std::endl;
+			std::cout << "Sending message to entity " << Message::GetName(msg.type) << std::endl;
 			Message::Send(msg);
 			break;
 	}
 }
 
 void QuestTrigger::Fire() {
-	std::cout << "FIRING "<< name << std::endl;
-	
 	for (auto& cond : conditions) {
 		if (!cond.Valid()) return;
 	}
+	
+	std::cout << "Firing quest trigger "<< name << std::endl;
 	
 	for (auto& act : actions) {
 		act.Perform();

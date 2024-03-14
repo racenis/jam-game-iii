@@ -15,4 +15,5 @@ A video game about petting frogs and stuff.
 - GCC/MinGW
 - Emscripten
 - Notepad++
+- TrenchBroom
 - Tramway SDK

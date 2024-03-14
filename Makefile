@@ -1,12 +1,20 @@
-src_main.o: ./src/main.cpp
-	emcc -c -g -O0 -std=c++20 -I./src -Wno-undefined-var-template -I../tram-sdk/src -I../tram-sdk/libraries -I../tram-sdk/src -I../tram-sdk/libraries/bullet ./src/main.cpp -o src_main.o
 
-src_quest.o: ./src/quest.cpp
-	emcc -c -g -O0 -std=c++20 -I./src -Wno-undefined-var-template -I../tram-sdk/src -I../tram-sdk/libraries -I../tram-sdk/src -I../tram-sdk/libraries/bullet ./src/quest.cpp -o src_quest.o
+compiler = gcc -c -std=c++20 -I../tram-sdk/src/ -I../tram-sdk/libraries/ -Ilibraries
+compilerlibsloc = -L../tram-sdk/ -L../tram-sdk/libraries/binaries/win64/ -Llibraries
+compilerlibs = -ltramsdk -lglfw3 -lgdi32 -lopengl32 -lOpenAl32 -lBulletDynamics -lBulletCollision -lLinearMath -llua
 
+default: main.o quest.o
+	g++ -std=c++20 -o poo main.o quest.o $(compilerlibsloc) $(compilerlibs)
+
+	
+	
 clean:
-	del src_main.o
-	del src_quest.o
+	del main.o
+	del quest.o
 
-project: src_main.o src_quest.o 
-	emcc -g src_main.o src_quest.o -sASSERTIONS=2 -sSAFE_HEAP=0 -sALLOW_MEMORY_GROWTH -sSTACK_OVERFLOW_CHECK=1 -sUSE_BULLET=1 -sUSE_GLFW=3 -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2 -L./ -L../tram-sdk/ -L../tram-sdk/libraries/binaries/web/ -ltramsdk -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -o jam-game-iii.html --preload-file ./
+main.o: src/main.cpp
+	$(compiler) src/main.cpp -o main.o
+
+quest.o: src/quest.cpp
+	$(compiler) src/quest.cpp -o quest.o
+	

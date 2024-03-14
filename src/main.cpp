@@ -76,7 +76,11 @@ int main(int argc, const char** argv) {
 	UI::Init();
 	Render::Init();
 	Physics::Init();
+#ifdef __EMSCRIPTEN__
 	Async::Init(0);
+#else
+	Async::Init();
+#endif
 	Audio::Init();
 	GUI::Init();
 
@@ -110,10 +114,8 @@ int main(int argc, const char** argv) {
 	//crevasse->LoadFromDisk();
 
 	player = new Player;
-	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 0.05f, 0.0f));
-	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
 	player->SetLocation(Entity::Find("player-start-2")->GetLocation());
-	//player->SetLocation(vec3(0.0f, (1.85f/2.0f) + 10.05f, 0.0f));
+	//player->SetLocation(Entity::Find("player-start-3")->GetLocation());
 	player->Load();
 
 	player->controllercomponent->SetWalkSpeed(0.05f);
@@ -176,8 +178,6 @@ int main(int argc, const char** argv) {
 		Text("Press\b[E]\bto\bactivate.", 4, TEXT_CENTER);
 		GUI::EndFrame();
     });
-	
-	//Physics::DRAW_PHYSICS_DEBUG = true;
 	
 	// in the end this would be loaded in from a file, but since this is only a
 	// prototype, we can skip that and just hard-code everything
@@ -406,7 +406,9 @@ void main_loop() {
 	GUI::End();
 	GUI::Update();
 	
+#ifdef __EMSCRIPTEN__
 	Async::ResourceLoader1stStage();
+#endif
 	Async::ResourceLoader2ndStage();
 	Async::FinishResource();
 	
@@ -444,16 +446,16 @@ void main_loop() {
 		quat camera_target = glm::quatLookAt(dir, DIRECTION_UP);
 		quat camera_current = Render::GetCameraRotation();
 		
-		// yeah, idk why this bit glitches out only on emscripten
-		#ifdef __EMSCRIPTEN__
-			quat camera_rot = camera_target;
-		#else
-			if (froggy_quest->GetVariable("outro")) {
-				camera_target = vec3(1.57f, 0.0f, 0.0f);
-			}	
+		if (glm::dot(camera_target, camera_current) < 0.0f) {
+			camera_target = -camera_target;
+		}
 		
-			quat camera_rot = glm::mix(camera_target, camera_current, 0.99f);
-		#endif
+		if (froggy_quest->GetVariable("outro")) {
+			camera_target = vec3(1.57f, 0.0f, 0.0f);
+		}	
+	
+		quat camera_rot = glm::mix(camera_target, camera_current, 0.99f);
+
 		
 		Render::SetCameraRotation(camera_rot);
 	}
